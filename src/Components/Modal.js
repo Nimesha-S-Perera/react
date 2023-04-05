@@ -4,6 +4,7 @@ import { Dialog } from "primereact/dialog";
 import InputForCheckin from "./Input";
 import { InputText } from "primereact/inputtext";
 import DropdownCheckIn from "./DropDown";
+import CheckInCalendar from "./Calendar";
 
 export default function ModalForCheckIn() {
   const [visible, setVisible] = useState(false);
@@ -30,85 +31,82 @@ export default function ModalForCheckIn() {
         footer={footerContent}
       >
         <p className="m-0 text-base">Guest Information</p>
-        <div className="flex justify-content-between align-items-center">
-          <div className="flex align-items-center gap-3">
-            <div className="flex-column">
-              <p className="text-sm">Name</p>
-              <InputForCheckin />
-            </div>
-            <div className="flex-column">
-              <p className="text-sm">NIC</p>
-              <InputForCheckin />
-            </div>
-            <div className="flex-column">
-              <p className="text-sm">Contact Number</p>
-              <InputForCheckin />
-            </div>
-          </div>
-        </div>
 
-        <p className="text-base mt-5">Check In Details</p>
-        <div className="flex justify-content-between align-items-center">
-          <div className="flex align-items-center gap-3">
-            <div className="flex-column">
-              <p className="text-sm">Staying Period</p>
-              <InputForCheckin />
+        <div class="card">
+          <div class="formgrid grid">
+            <div class="field col-12 md:col-4 text-sm">
+              <label for="city">Name</label>
+              <input
+                id="city"
+                type="text"
+                class="text-sm text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+              />
             </div>
-            <div className="flex-column">
-              <p className="text-sm">Staying Period</p>
-              <InputForCheckin />
+            <div class="field col-12 md:col-4 text-sm">
+              <label for="lastname6">NIC</label>
+              <input
+                id="lastname6"
+                type="text"
+                class="text-sm text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+              />
             </div>
-            <div className="flex-column">
-              <p className="text-sm">Stay Type</p>
-              <DropdownCheckIn />
+            <div class="field col-12 md:col-4 text-sm">
+              <label for="zip">Contact Number</label>
+              <input
+                id="zip"
+                type="text"
+                class="text-sm text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+              />
+            </div>
+            <p className="m-0 text-base mt-3">Check In Details</p>
+            <div class="formgrid grid">
+              <div class="field col-12 md:col-4 text-sm">
+                <label for="city">Staying Period</label>
+                <CheckInCalendar />
+              </div>
+              <div class="field col-12 md:col-4 text-sm">
+                <label for="lastname6">Staying Period</label>
+                <CheckInCalendar />
+              </div>
+              <div class="field col-12 md:col-4 text-sm">
+                <label for="state">Stay Type</label>
+                <select
+                  id="state"
+                  placeholder="Select"
+                  class="w-full text-sm text-color surface-overlay p-2 border-1 border-solid surface-border border-round outline-none focus:border-primary "
+                >
+                  <option>FB</option>
+                  <option>BB</option>
+                </select>
+              </div>
+              <div class="field col-12 md:col-4 text-sm">
+                <label for="state">Room Suite</label>
+                <select
+                  id="state"
+                  placeholder="Select"
+                  class="w-full text-sm text-color surface-overlay p-2 border-1 border-solid surface-border border-round outline-none focus:border-primary"
+                >
+                  <option>Standard</option>
+                  <option>Deluxe</option>
+                </select>
+              </div>
+              <div class="field col-12 md:col-4 text-sm">
+                <label for="state">Room No</label>
+                <select
+                  id="state"
+                  placeholder="Select"
+                  class="w-full text-sm text-color surface-overlay p-2 border-1 border-solid surface-border border-round outline-none focus:border-primary "
+                >
+                  <option>12</option>
+                  <option>23</option>
+                  <option>45</option>
+                  <option>46</option>
+                  <option>48</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
-        <div className="flex justify-content-between align-items-center">
-          <div className="flex align-items-center gap-3">
-            <div className="flex-column">
-              <p className="text-sm">Room Suite</p>
-              <DropdownCheckIn />
-            </div>
-            <div className="flex-column">
-              <p className="text-sm">Room No</p>
-              <DropdownCheckIn />
-            </div>
-          </div>
-        </div>
-
-        <div className="flex justify-content-end">
-          <div className="flex gap-3">
-            <div className="flex-row-reverse">
-              <p className="text-sm">Sub Total</p>
-            </div>
-            <div className="flex-row-reverse">
-              <p className="text-sm">40 000.00</p>
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-content-end">
-          <div className="flex gap-3">
-            <div className="flex-row-reverse">
-              <p className="text-sm ">Tax 10%</p>
-            </div>
-            <div className="flex-row-reverse">
-              <p className="text-sm">4 000.00</p>
-            </div>
-          </div>
-        </div>
-        <div className="flex justify-content-end">
-          <div className="flex gap-3">
-            <div className="flex-row-reverse">
-              <p className="text-sm ">Total</p>
-            </div>
-            <div className="flex-row-reverse">
-              <p className="text-sm">LKR 44 000.00</p>
-            </div>
-          </div>
-        </div>
-        
-        
       </Dialog>
     </div>
   );
