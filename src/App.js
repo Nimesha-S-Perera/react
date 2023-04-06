@@ -10,7 +10,7 @@ import BookingsDataTable from "../src/Components/DataTable";
 import { InputText } from "primereact/inputtext";
 import { Card } from "primereact/card";
 import DialogForm from "../src/Components/Modal";
-import InputForCheckin from "../src/Components/Input";
+
 
 function App() {
   return (
