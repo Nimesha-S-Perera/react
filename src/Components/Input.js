@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React from 'react';
 import { InputText } from "primereact/inputtext";
 
-export default function InputForCheckin() {
-    const [value, setValue] = useState('');
-
+export default function CheckInInput() {
     return (
-        <div className="p-inputtext-sm" placeholder="Small" size="Small">
-            <InputText value={value} onChange={(e) => setValue(e.target.value)} />
+        <div className="card flex flex-column align-items-center gap-3 ">
+            <InputText type="text" className="p-inputtext-sm"  />
         </div>
     )
 }
+        
