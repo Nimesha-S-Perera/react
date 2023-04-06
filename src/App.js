@@ -10,34 +10,30 @@ import BookingsDataTable from "../src/Components/DataTable";
 import { InputText } from "primereact/inputtext";
 import { Card } from "primereact/card";
 import DialogForm from "../src/Components/Modal";
-
-
+import React, {useEffect, useState} from "react";
+import MyComponent from "../src/Components/TestForm";
+import RoomList from "../src/Components/TestAvailable"
 function App() {
   return (
-    <div className="App overflow-hidden">
-      <div className="grid">
-        <div className="col-12">
-          <div className="flex flex-row align-items-center surface-200">
-            <h1 className="text-2xl font-semibold ml-5">ABC Hotel</h1>
-            <h2 className="flex text-xl font-normal mx-auto">
-              ABC Hotel - Check-In System
-            </h2>
-          </div>
+    <div className="App overflow-hidden ">
+      <div className="flex flex-wrap align-items-center justify-content-between surface-200">
+        <div className="flex align-items-center ">
+          <h1 className="text-2xl font-semibold ml-3">ABC Hotel</h1>
         </div>
+        <h2 className="flex text-xl font-normal mx-auto">
+          ABC Hotel - Check-In System
+        </h2>
       </div>
-      <div className="flex justify-content-between align-items-center">
-        <div className="flex align-items-center gap-3 m-3">
+      <div className="flex flex-wrap align-items-center justify-content-between gap-2 ml-2">
+        <div className="flex align-items-center gap-3 ml-2">
           <p className="text-xl">Check-In List</p>
           <DialogForm label="New Check-In" size="small" />
         </div>
-        <div className="justify-content-between m-3">
-          <span className="p-input-icon-left">
+        <span className="p-input-icon-left mr-3">
             <i className="pi pi-search" />
-            <InputText placeholder="Search" />
+            <InputText placeholder="Search" className="w-full" />
           </span>
-        </div>
       </div>
-
       <BookingsDataTable />
     </div>
   );

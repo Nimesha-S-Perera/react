@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { Dropdown } from 'primereact/dropdown';
 
 export default function RoomNoDropDown() {
+
     const [selectedStayType, setSelectedStayType] = useState(null);
     const stayTypes = [
         { name: 'FB', code: 'FB' },
