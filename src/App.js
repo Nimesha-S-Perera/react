@@ -6,13 +6,14 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import { Button } from "primereact/button";
-import BookingsDataTable from "../src/Components/DataTable";
+import BookingsDataTable from "./Components/BookingsDataTable";
 import { InputText } from "primereact/inputtext";
 import { Card } from "primereact/card";
 import DialogForm from "../src/Components/Modal";
 import React, {useEffect, useState} from "react";
 import MyComponent from "../src/Components/TestForm";
 import RoomList from "../src/Components/TestAvailable"
+
 function App() {
   return (
     <div className="App overflow-hidden ">
@@ -29,10 +30,7 @@ function App() {
           <p className="text-xl">Check-In List</p>
           <DialogForm label="New Check-In" size="small" />
         </div>
-        <span className="p-input-icon-left mr-3">
-            <i className="pi pi-search" />
-            <InputText placeholder="Search" className="w-full" />
-          </span>
+
       </div>
       <BookingsDataTable />
     </div>

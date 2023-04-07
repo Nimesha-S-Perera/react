@@ -1,20 +1,28 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import moment from 'moment-timezone';
 import {Button} from "primereact/button";
 import {Dialog} from "primereact/dialog";
-import InputForCheckin from "./Input";
 import {InputText} from "primereact/inputtext";
-import CheckInCalendar from "./Calendar";
-import CheckInInput from "./Input";
-import StayTypeDropDown from "./DropDownStayType";
-import RoomSuiteDropDown from "./DropDownRoomSuite";
-import RoomNoDropDown from "./DropDownRoomNo";
 import {Calendar} from 'primereact/calendar';
 import {config} from "../config/config";
 import axios from 'axios';
 import {Dropdown} from "primereact/dropdown";
+import { Toast } from 'primereact/toast';
+
 
 export default function ModalForCheckIn() {
+
+    //Toast
+    const toast = useRef(null);
+
+    const showSuccess = () => {
+        toast.current.show({severity:'success', summary: 'Success', detail:'Guest checked-in successfully', life: 3000});
+    }
+
+    const showError = () => {
+        toast.current.show({severity:'error', summary: 'Error', detail:'Incomplete checked-in', life: 3000});
+    }
+
     const [visible, setVisible] = useState(false);
 
     const [name, setName] = useState('');
@@ -25,6 +33,16 @@ export default function ModalForCheckIn() {
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
     const [stayType, setStayType] = useState('');
+
+    //To validate data
+    const [onNameError, setOnNameError] = useState('');
+    const [onNicError, setOnNicError] = useState('');
+    const [onContactNumberError, setonContactNumberError] = useState('');
+    const [onCheckInDateError, setOnCheckInDateError] = useState('');
+    const [onCheckOutDateError, setOnCheckOutDateError] = useState('');
+    const [onStayTypeError, setOnStayTypeError] = useState('');
+    const [onRoomTypeError, setOnRoomTypeError] = useState('');
+    const [onRoomNoError, setOnRoomNoError] = useState('');
 
     //To fetch available rooms
     const [roomType, setRoomType] = useState("");
@@ -69,47 +87,26 @@ export default function ModalForCheckIn() {
     const handleCheckOutDateSelect = (e) => {
         setCheckOutDate(e.value);
     };
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
-        const data = {
-            name: name,
-            nic: nic,
-            contactNumber: contactNumber,
-            roomID: roomNo,
-            userID: '2',
-            checkInDate: convertedCheckInDate,
-            checkOutDate: convertedCheckOutDate,
-            stayType: stayType,
-            packageID: '2',
-            total: total,
-        };
-        console.log(data)
-
-        try {
-            const response = await axios.post(
-                "http://localhost:8000/api/add/checkin",
-                data
-            );
-            setName("");
-
-            console.log(response);
-
-
-        } catch (error) {
-            console.error(error);
-            // show error message to the user
-        }
-    };
-
 
     //To get the tax rate
     const [taxRate, setTaxRate] = useState(null);
+
+    const [packageStayType, setPackageStayType] = useState(null);
+    const [packageRoomSuite, setPackageRoomSuite] = useState(null);
+    const [packageRoomNo, setPackageRoomNo] = useState(null);
 
     useEffect(() => {
         axios.get(`${config.ABC_hotel_check_in_system}/tax`).then((response) => {
             const taxData = response.data.data[0];
             setTaxRate(taxData.taxRate);
+        });
+    }, []);
+
+    useEffect(() => {
+        axios.get(`${config.ABC_hotel_check_in_system}/packages`).then((response) => {
+            const PackageDetails = response.data.data;
+            setPackageStayType(PackageDetails.PackageDetails);
+            console.log(PackageDetails)
         });
     }, []);
 
@@ -133,7 +130,6 @@ export default function ModalForCheckIn() {
         ratePerNight = 25000;
         console.log("25000")
     }
-
 
     const diffInMs = Math.abs(checkInDate - checkOutDate); // difference in milliseconds
     const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24)); // Convert milliseconds to days
@@ -165,6 +161,76 @@ export default function ModalForCheckIn() {
         {label: 'BB', value: 'BB'}
     ];
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if(!validateForm()){
+            return
+        }
+        const data = {
+            name: name,
+            nic: nic,
+            contactNumber: contactNumber,
+            roomID: roomNo,
+            userID: '2',
+            checkInDate: convertedCheckInDate,
+            checkOutDate: convertedCheckOutDate,
+            stayType: stayType,
+            packageID: '1',
+            total: total,
+        };
+        console.log(data)
+
+        try {
+            const response = await axios.post(
+                `${config.ABC_hotel_check_in_system}/add/checkin`,
+                data
+            );
+            setName("");
+            setNic("");
+            setContactNumber("");
+            setCheckInDate("");
+            setCheckOutDate("");
+            setStayType("");
+            setRoomType("");
+            setRoomNo("");
+
+            console.log(response);
+            showSuccess();
+        } catch (error) {
+            console.error(error);
+            showError();
+
+        }
+    };
+
+    function validateForm() {
+        if (!name) {
+            setOnNameError("Please enter valid name")
+            return true;
+        } else if (nic == "") {
+            setOnNicError("Please enter valid nic")
+            return false;
+        } else if (contactNumber == "") {
+            setonContactNumberError("Please enter valid contact number")
+            return false;
+        } else if (!convertedCheckInDate) {
+            setOnCheckInDateError("Please enter valid data")
+            return false;
+        } else if (!convertedCheckOutDate) {
+            setOnCheckOutDateError("Please enter valid data")
+            return false;
+        }  else if (!stayType) {
+            setOnStayTypeError("Please enter valid data")
+            return false;
+        }  else if (!roomType) {
+            setOnRoomTypeError("Please enter valid data")
+            return false;
+        }  else if (!roomNo) {
+            setOnRoomNoError("Please enter valid data")
+            return false;
+        }
+        return true;
+    }
 
     return (
         <div className="card flex justify-content-center w-50rem">
@@ -180,8 +246,8 @@ export default function ModalForCheckIn() {
                 visible={visible}
                 style={{width: "50rem"}}
                 onHide={() => setVisible(false)}
-
             >
+
                 <p className="m-0 text-base mb-4 font-normal">Guest Information</p>
                 <form onSubmit={handleSubmit} method="POST" action={""}>
                     <div class="card gap-1">
@@ -190,7 +256,8 @@ export default function ModalForCheckIn() {
                                 <label className="ml-2" htmlFor="name">Name</label>
                                 <InputText id="name"
                                            name="name" value={name}
-                                           onChange={(event) => setName(event.target.value)} required/>
+                                           onChange={(event) => setName(event.target.value)} />
+                                {onNameError != '' ? (<label style={{color:'red'}} className="ml-2" htmlFor="name">{onNameError}</label>) : null}
                             </div>
                             <div class="field col-12 md:col-4 text-sm">
                                 <label className="ml-2" htmlFor="nic">NIC</label>
@@ -198,8 +265,9 @@ export default function ModalForCheckIn() {
                                     id="nic"
                                     value={nic}
                                     onChange={(event) => setNic(event.target.value)}
-                                    required
+                                    //required
                                 />
+                                {onNicError != '' ? (<label style={{color:'red'}} className="ml-2" htmlFor="name">{onNicError}</label>) : null}
                             </div>
                             <div class="field col-12 md:col-4 text-sm ">
                                 <label className="ml-2" htmlFor="contactNumber">Contact Number</label>
@@ -207,8 +275,9 @@ export default function ModalForCheckIn() {
                                     id="contactNumber"
                                     value={contactNumber}
                                     onChange={(event) => setContactNumber(event.target.value)}
-                                    required
+                                    //required
                                 />
+                                {onContactNumberError != '' ? (<label style={{color:'red'}} className="ml-2" htmlFor="name">{onContactNumberError}</label>) : null}
                             </div>
                         </div>
                         <p className="m-0 text-base mt-3 mb-4">Check In Details</p>
@@ -218,15 +287,18 @@ export default function ModalForCheckIn() {
 
                                 <Calendar value={checkInDate}
                                           onChange={handleCheckInDateSelect}
-                                           readOnlyInput required/>
+                                            //required
+                                />
+                                {onCheckInDateError != '' ? (<label style={{color:'red'}} className="ml-2" htmlFor="name">{onCheckInDateError}</label>) : null}
                             </div>
                             <div class="field col-12 md:col-4 text-sm">
                                 <label for="stayingPeriod">Staying Period</label>
                                 <Calendar
                                     value={checkOutDate}
                                     onChange={handleCheckOutDateSelect}
-                                    required
+                                    //required
                                 />
+                                {onCheckOutDateError != '' ? (<label style={{color:'red'}} className="ml-2" htmlFor="name">{onCheckOutDateError}</label>) : null}
                             </div>
                             <div class="field col-12 md:col-4 text-sm">
                                 <label className="ml-2" htmlFor="stayType">Stay Type</label>
@@ -235,24 +307,26 @@ export default function ModalForCheckIn() {
                                               onChange={handleStayTypeChange}
                                               options={stayTypes}
                                               optionLabel="label"
+                                             // required
                                               placeholder="Select" className="w-full md:w-14rem"/>
+                                    {onStayTypeError != '' ? (<label style={{color:'red'}} className="ml-2" htmlFor="name">{onStayTypeError}</label>) : null}
                                 </div>
                             </div>
                             <div class="field col-12 md:col-4 text-sm">
                                 <label className="ml-2" htmlFor="roomSuite">Room Suite</label>
-
                                 <div className="card flex justify-content-center">
                                     <Dropdown value={roomType}
                                               onChange={handleRoomTypeChange}
                                               options={roomTypes}
                                               optionLabel="label"
+                                              //required
                                               placeholder="Select" className="w-full md:w-14rem"/>
+                                    {onRoomTypeError != '' ? (<label style={{color:'red'}} className="ml-2" htmlFor="name">{onRoomTypeError}</label>) : null}
                                 </div>
 
                             </div>
                             <div class="field col-12 md:col-4 text-sm">
                                 <label className="ml-2" htmlFor="roomNo">Room No</label>
-
                                 <div className="card flex justify-content-center">
                                     <Dropdown
                                         value={roomNo}
@@ -260,8 +334,10 @@ export default function ModalForCheckIn() {
                                         options={roomNos.map(roomNo => ({label: roomNo, value: roomNo}))}
                                         optionLabel="label"
                                         placeholder="Select"
+                                        //required
                                         className="w-full md:w-14rem"
                                     />
+                                    {onRoomNoError != '' ? (<label style={{color:'red'}} className="ml-2" htmlFor="name">{onRoomNoError}</label>) : null}
                                 </div>
                             </div>
                             <div className="flex field col-12 md:col-12 text-sm justify-content-end">
@@ -283,12 +359,13 @@ export default function ModalForCheckIn() {
 
                     <div className="flex field col-12 md:col-12 text-sm justify-content-end">
                         <div className="grid w-17rem justify-content-end">
-                            <div className="flex col-6 flex-column ">
-                                <Button type="submit" footer={footerContent} label="Check-in" size="small"
-                                        onClick={(handleSubmit) => setVisible(false)} autoFocus/>
 
+                            <div className="card flex justify-content-center">
+                                <Toast ref={toast} />
+                                <div className="flex flex-wrap gap-2">
+                                    <Button label="Check-in" footer={footerContent}  onClick={(handleSubmit) => setVisible(true)} size="small" className="bg-primary outline-none"  />
+                                </div>
                             </div>
-
 
                         </div>
                     </div>
