@@ -58,7 +58,6 @@ function BookingsDataTable() {
   };
 
   const header = renderHeader();
-
   return (
       <div className="card p-3" >
         <DataTable value={bookings} paginator rows={5} responsive filters={filters} filterDisplay="row" tableStyle={{minWidth:"50rem"}}

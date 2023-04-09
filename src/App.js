@@ -32,7 +32,9 @@ function App() {
         <div className="flex align-items-center gap-3 ml-2">
           <p className="text-xl">Check-In List</p>
           <DialogForm label="New Check-In" size="small" />
+
         </div>
+
       </div>
         <TableSwitcher/>
     </div>
