@@ -7,12 +7,15 @@ import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import { Button } from "primereact/button";
 import BookingsDataTable from "./Components/BookingsDataTable";
+import AllBookingsDataTable from "./Components/AllBookingDataTable";
 import { InputText } from "primereact/inputtext";
 import { Card } from "primereact/card";
 import DialogForm from "../src/Components/Modal";
 import React, {useEffect, useState} from "react";
 import MyComponent from "../src/Components/TestForm";
 import RoomList from "../src/Components/TestAvailable"
+import TableSwitcher from "./Components/ToggleButton";
+
 
 function App() {
   return (
@@ -29,10 +32,11 @@ function App() {
         <div className="flex align-items-center gap-3 ml-2">
           <p className="text-xl">Check-In List</p>
           <DialogForm label="New Check-In" size="small" />
+
         </div>
 
       </div>
-      <BookingsDataTable />
+        <TableSwitcher/>
     </div>
   );
 }
