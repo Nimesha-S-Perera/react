@@ -4,6 +4,7 @@ import AllBookingsDataTable from './AllBookingDataTable';
 import BookingsDataTable from './BookingsDataTable';
 
 export default function TableSwitcher() {
+
     const options = ['Recent', 'Check-in List'];
     const [selectedTable, setSelectedTable] = useState(options[0]);
 
