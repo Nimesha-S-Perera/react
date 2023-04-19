@@ -26,10 +26,10 @@ function BookingsDataTable({started}) {
                 let roomType = booking.roomType;
                 if (roomType == 0) {
                     roomType = RoomTypeList[0];
-                } else if (roomType == 1) {
+                } else if (roomType == 1){
                     roomType = RoomTypeList[1];
                 } else{
-                    roomType = "Room Suite not found"
+                    roomType = "Room suite not found"
                 }
                 let roomStatus = booking.status;
                 if (roomStatus == 0) {
@@ -44,8 +44,6 @@ function BookingsDataTable({started}) {
                     guestStayType = StayTypeList[0];
                 } else if (guestStayType == 1) {
                     guestStayType = StayTypeList[1];
-                } else{
-                    roomType = "Room status not found"
                 }
                 const stayPeriod = booking.guest ?
                     `${checkInDate.getDate()}/${(checkOutDate.getMonth() + 1).toString().padStart(2, '0')}/${checkInDate.getFullYear()}  - ${checkOutDate.getDate()}/${(checkOutDate.getMonth() + 1).toString().padStart(2, '0')}/${checkInDate.getFullYear()} ` :

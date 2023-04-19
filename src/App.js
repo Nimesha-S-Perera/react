@@ -4,7 +4,7 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import BookingsDataTable from "./Components/BookingsDataTable";
-import DialogForm,{PassData} from "../src/Components/Modal";
+import DialogForm from "../src/Components/Modal";
 import React, {useEffect, useState} from "react";
 
 function App() {

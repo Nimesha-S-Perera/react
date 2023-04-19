@@ -26,7 +26,6 @@ import {StayTypeList} from "../Utilities/StayTypeList";
 
 export default function ModalForCheckIn({onClick}, props) {
 
-
     //Toasts
     const toast = useRef(null);
     const showSuccess = () => {
@@ -91,12 +90,9 @@ export default function ModalForCheckIn({onClick}, props) {
         }
     };
 
-    console.log('roomtypeafterenum=', roomType);
-    console.log('staytypeafterenum=', stayType);
     const handleStayTypeChange = (event) => {
         setStayType(event.value);
     };
-    console.log('stayTypeaftenenum', stayType)
 
     const handleCheckInDateSelect = (event) => {
         setCheckInDate(event.value);
@@ -118,7 +114,6 @@ export default function ModalForCheckIn({onClick}, props) {
             setTaxRate(taxData.taxRate);
         });
     }, []);
-
 
     const [matchingPackageID, setMatchingPackageID] = useState(null);
     const [matchingPackagePrice, setMatchingPackagePrice] = useState(null);
@@ -158,9 +153,6 @@ export default function ModalForCheckIn({onClick}, props) {
             });
     }, [stayType, roomType]);
 
-    console.log(`price :${matchingPackagePrice}`);
-    console.log(`PackageID :${matchingPackageID}`);
-
     const footerContent = (
         <div>
             <Button label="Check-In" type="submit" onClick={() => setVisible(false)}/>
@@ -172,7 +164,6 @@ export default function ModalForCheckIn({onClick}, props) {
     const tax = PaymentDetails.tax;
     const total = parseFloat(PaymentDetails.total);
     const thousandSepTotal = total.toLocaleString('en-US').replace(/,/g, ' ');
-
 
     const handleSubmit = async (event) => {
         event.preventDefault();
