@@ -19,12 +19,12 @@ import {RoomTypeValidation} from "../Validations/RoomTypeValidation";
 import {RoomNoValidation} from "../Validations/RoomNoValidation";
 import {Payments} from "../Utilities/Payments";
 import {ConvertDate} from "../Utilities/ConvertDate";
-import {BookingsDataTable,FetchData} from "../Components/BookingsDataTable";
+import {BookingsDataTable, FetchData} from "../Components/BookingsDataTable";
 import {RoomTypeEnum} from "../Utilities/RoomTypeEnum";
 import {StayTypeEnum} from "../Utilities/StayTypeEnum";
 
 
-export default function ModalForCheckIn({onClick},props) {
+export default function ModalForCheckIn({onClick}, props) {
 
 
     //Toasts
@@ -91,12 +91,12 @@ export default function ModalForCheckIn({onClick},props) {
         }
     };
 
-    console.log('roomtypeafterenum=',roomType);
-    console.log('staytypeafterenum=',stayType);
+    console.log('roomtypeafterenum=', roomType);
+    console.log('staytypeafterenum=', stayType);
     const handleStayTypeChange = (event) => {
         setStayType(event.value);
     };
-    console.log('stayTypeaftenenum',stayType)
+    console.log('stayTypeaftenenum', stayType)
 
     const handleCheckInDateSelect = (event) => {
         setCheckInDate(event.value);
@@ -120,22 +120,21 @@ export default function ModalForCheckIn({onClick},props) {
     }, []);
 
 
-
     const [matchingPackageID, setMatchingPackageID] = useState(null);
     const [matchingPackagePrice, setMatchingPackagePrice] = useState(null);
     useEffect(() => {
-        if(stayType == 0 ){
+        if (stayType == 0) {
             stayType = StayTypeEnum[0];
-        }else if(stayType == 1){
+        } else if (stayType == 1) {
             stayType = StayTypeEnum[1];
-        }else {
+        } else {
             stayType = "Stay type not found";
         }
-        if(roomType == 0 ){
+        if (roomType == 0) {
             roomType = RoomTypeEnum[0];
-        }else if(roomType == 1){
+        } else if (roomType == 1) {
             roomType = RoomTypeEnum[1];
-        }else {
+        } else {
             roomType = "Stay type not found";
         }
         axios
@@ -144,7 +143,6 @@ export default function ModalForCheckIn({onClick},props) {
                 const packageDetails = response.data.data;
                 const matchingPackages = packageDetails.filter(
                     (pkg) => pkg.stayType === stayType && pkg.roomType === roomType
-
                 );
                 console.log(matchingPackages);
                 if (matchingPackages.length > 0) {
@@ -241,7 +239,7 @@ export default function ModalForCheckIn({onClick},props) {
     }
 
     function validateCheckOutDate() {
-        const error = CheckOutDateValidation(checkOutDate,checkInDate);
+        const error = CheckOutDateValidation(checkOutDate, checkInDate);
         setOnCheckOutDateError(error);
     }
 
@@ -299,7 +297,7 @@ export default function ModalForCheckIn({onClick},props) {
                 <Card>
                     <p className="m-0 text-base mb-4 font-normal">Guest Information</p>
                     <form onSubmit={handleSubmit} method="POST" action={""}>
-                        <div className="card ">
+                        <div className="card">
                             <div className="formgrid grid ">
                                 <div className="field col-12 md:col-4 text-sm">
                                     <label className="flex flew-row gap-1" htmlFor="name">
@@ -399,7 +397,10 @@ export default function ModalForCheckIn({onClick},props) {
                                     <div className="card flex justify-content-center flex-column">
                                         <Dropdown
                                             value={stayType}
-                                            options={Object.entries(StayTypeEnum).map(([key, value]) => ({ label: value, value: key }))}
+                                            options={Object.entries(StayTypeEnum).map(([key, value]) => ({
+                                                label: value,
+                                                value: key
+                                            }))}
                                             onChange={handleStayTypeChange}
                                             onSelect={validateStayType}
                                             optionLabel="label"
@@ -422,7 +423,10 @@ export default function ModalForCheckIn({onClick},props) {
                                     <div className="card flex justify-content-center flex-column">
                                         <Dropdown
                                             value={roomType}
-                                            options={Object.entries(RoomTypeEnum).map(([key, value]) => ({ label: value, value: key }))}
+                                            options={Object.entries(RoomTypeEnum).map(([key, value]) => ({
+                                                label: value,
+                                                value: key
+                                            }))}
                                             onChange={handleRoomTypeChange}
                                             onSelect={validateRoomType}
                                             optionLabel="label"
