@@ -20,8 +20,8 @@ import {RoomNoValidation} from "../Validations/RoomNoValidation";
 import {Payments} from "../Utilities/Payments";
 import {ConvertDate} from "../Utilities/ConvertDate";
 import {BookingsDataTable, FetchData} from "../Components/BookingsDataTable";
-import {RoomTypeEnum} from "../Utilities/RoomTypeEnum";
-import {StayTypeEnum} from "../Utilities/StayTypeEnum";
+import {RoomTypeList} from "../Utilities/RoomTypeList";
+import {StayTypeList} from "../Utilities/StayTypeList";
 
 
 export default function ModalForCheckIn({onClick}, props) {
@@ -124,16 +124,16 @@ export default function ModalForCheckIn({onClick}, props) {
     const [matchingPackagePrice, setMatchingPackagePrice] = useState(null);
     useEffect(() => {
         if (stayType == 0) {
-            stayType = StayTypeEnum[0];
+            stayType = StayTypeList[0];
         } else if (stayType == 1) {
-            stayType = StayTypeEnum[1];
+            stayType = StayTypeList[1];
         } else {
             stayType = "Stay type not found";
         }
         if (roomType == 0) {
-            roomType = RoomTypeEnum[0];
+            roomType = RoomTypeList[0];
         } else if (roomType == 1) {
-            roomType = RoomTypeEnum[1];
+            roomType = RoomTypeList[1];
         } else {
             roomType = "Stay type not found";
         }
@@ -397,7 +397,7 @@ export default function ModalForCheckIn({onClick}, props) {
                                     <div className="card flex justify-content-center flex-column">
                                         <Dropdown
                                             value={stayType}
-                                            options={Object.entries(StayTypeEnum).map(([key, value]) => ({
+                                            options={Object.entries(StayTypeList).map(([key, value]) => ({
                                                 label: value,
                                                 value: key
                                             }))}
@@ -423,7 +423,7 @@ export default function ModalForCheckIn({onClick}, props) {
                                     <div className="card flex justify-content-center flex-column">
                                         <Dropdown
                                             value={roomType}
-                                            options={Object.entries(RoomTypeEnum).map(([key, value]) => ({
+                                            options={Object.entries(RoomTypeList).map(([key, value]) => ({
                                                 label: value,
                                                 value: key
                                             }))}

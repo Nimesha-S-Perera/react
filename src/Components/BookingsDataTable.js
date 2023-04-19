@@ -6,9 +6,9 @@ import {FilterMatchMode} from 'primereact/api';
 import {Card} from 'primereact/card';
 import axios from '../Axios/AxiosInstance';
 import 'primeicons/primeicons.css';
-import {RoomTypeEnum} from "../Utilities/RoomTypeEnum";
-import {RoomStatusEnum} from "../Utilities/RoomStatusEnum";
-import {StayTypeEnum} from "../Utilities/StayTypeEnum";
+import {RoomTypeList} from "../Utilities/RoomTypeList";
+import {RoomStatusList} from "../Utilities/RoomStatusList";
+import {StayTypeList} from "../Utilities/StayTypeList";
 
 
 function BookingsDataTable({started}) {
@@ -25,25 +25,25 @@ function BookingsDataTable({started}) {
                 const checkOutDate = new Date(booking.checkOutDate);
                 let roomType = booking.roomType;
                 if (roomType == 0) {
-                    roomType = RoomTypeEnum[0];
+                    roomType = RoomTypeList[0];
                 } else if (roomType == 1) {
-                    roomType = RoomTypeEnum[1];
+                    roomType = RoomTypeList[1];
                 } else{
                     roomType = "Room Suite not found"
                 }
                 let roomStatus = booking.status;
                 if (roomStatus == 0) {
-                    roomStatus = RoomStatusEnum[0];
+                    roomStatus = RoomStatusList[0];
                 } else if (roomStatus == 1) {
-                    roomStatus = RoomStatusEnum[1];
+                    roomStatus = RoomStatusList[1];
                 } else{
                     roomType = "Room status not found"
                 }
                 let guestStayType = booking.stayType;
                 if (guestStayType == 0) {
-                    guestStayType = StayTypeEnum[0];
+                    guestStayType = StayTypeList[0];
                 } else if (guestStayType == 1) {
-                    guestStayType = StayTypeEnum[1];
+                    guestStayType = StayTypeList[1];
                 } else{
                     roomType = "Room status not found"
                 }
