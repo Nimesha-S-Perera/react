@@ -80,7 +80,7 @@ export default function ModalForCheckIn({onClick},props) {
         const selectedRoomType = event.target.value;
         setRoomType(selectedRoomType);
         try {
-            const response = await axios.get(`${config.ABC_hotel_check_in_system}/rooms/available/?roomType=${selectedRoomType}`);
+            const response = await axios.get(`/rooms/available/?roomType=${selectedRoomType}`);
             console.log(response.data);
             if (response.data.length == 0) {
                 showWarnNoRoomsAvailable();
@@ -113,7 +113,7 @@ export default function ModalForCheckIn({onClick},props) {
     const [packageStayType, setPackageStayType] = useState(null);
 
     useEffect(() => {
-        axios.get(`${config.ABC_hotel_check_in_system}/tax`).then((response) => {
+        axios.get(`/tax`).then((response) => {
             const taxData = response.data.data[0];
             setTaxRate(taxData.taxRate);
         });
@@ -139,7 +139,7 @@ export default function ModalForCheckIn({onClick},props) {
             roomType = "Stay type not found";
         }
         axios
-            .get(`${config.ABC_hotel_check_in_system}/packages`)
+            .get(`/packages`)
             .then((response) => {
                 const packageDetails = response.data.data;
                 const matchingPackages = packageDetails.filter(
@@ -196,7 +196,7 @@ export default function ModalForCheckIn({onClick},props) {
         console.log(data)
         try {
             const response = await axios.post(
-                `${config.ABC_hotel_check_in_system}/add/checkin`,
+                `/add/checkin`,
                 data
             );
             setName("");
@@ -280,26 +280,6 @@ export default function ModalForCheckIn({onClick},props) {
     };
 
     const mindate = checkInDate ? new Date(checkInDate.getTime() + 24 * 60 * 60 * 1000) : new Date();
-    /*
-    const [guestName,setGuestName] = useState("");
-    const [guestContactNumber,setGuestContactNumber] = useState("");
-    //to get existing guests
-    const handleExistingGuests = async (event) => {
-        const enteredNIC = event.target.value;
-        setNic(enteredNIC);
-        try {
-            const response = await axios.get(`${config.ABC_hotel_check_in_system}/guest/exist/?nic=${enteredNIC}`);
-            const guestData = response.data;
-            setGuestName(guestData.name);
-            setGuestContactNumber(guestData.contactNumber);
-            console.log(response.data);
-
-        } catch (error) {
-            console.error(error);
-        }
-    };
-*/
-
 
     return (
         <div className="card flex justify-content-center w-50rem">
@@ -421,6 +401,7 @@ export default function ModalForCheckIn({onClick},props) {
                                             value={stayType}
                                             options={Object.entries(StayTypeEnum).map(([key, value]) => ({ label: value, value: key }))}
                                             onChange={handleStayTypeChange}
+                                            onSelect={validateStayType}
                                             optionLabel="label"
                                             optionValue="value"
                                             placeholder="Select"
@@ -443,6 +424,7 @@ export default function ModalForCheckIn({onClick},props) {
                                             value={roomType}
                                             options={Object.entries(RoomTypeEnum).map(([key, value]) => ({ label: value, value: key }))}
                                             onChange={handleRoomTypeChange}
+                                            onSelect={validateRoomType}
                                             optionLabel="label"
                                             optionValue="value"
                                             placeholder="Select"
@@ -496,7 +478,6 @@ export default function ModalForCheckIn({onClick},props) {
                             <Toast ref={toast}/>
                             <div className="flex flex-wrap gap-2">
                                 <Button
-                                    //onClick={() => onClick()}
                                     label="Check-in"
                                     footer={footerContent}
                                     size="small"

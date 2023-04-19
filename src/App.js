@@ -6,14 +6,11 @@ import "primeflex/primeflex.css";
 import BookingsDataTable from "./Components/BookingsDataTable";
 import DialogForm,{PassData} from "../src/Components/Modal";
 import React, {useEffect, useState} from "react";
-import Login from "./Components/login";
 
 function App() {
 
     const [started, setStarted] = useState(false)
 
-    //const getData = PassData;
-    //console.log(`gotdatafrommodal:${getData}`);
     return (
         <div className="App overflow-hidden">
             <div className="grid surface-200">
